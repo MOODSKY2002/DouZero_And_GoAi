@@ -15,9 +15,14 @@
 
 * Go_Ai相关讨论QQ群: 324785043
 
+landlord_up 胜率对比
+![landlord_up对比](1.png)
 
+landlord 胜率对比
+![landlord 对比](2.png)
 
-
+landlord_down 胜率对比
+![landlord_down对比](3.png)
 
 
 Go_Ai Agent极简说明
