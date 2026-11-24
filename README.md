@@ -1,0 +1,2 @@
+# DouZero_And_GoAi
+基于DouZero_For_HLDDZ_FullAuto示例，展示、演示GoAi效果。参考DouZero原理全新开发的MOE构架的斗地主模型。
