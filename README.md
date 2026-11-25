@@ -26,7 +26,13 @@ landlord_down 胜率对比
 
 
 Go_Ai Agent极简说明
-创建Agent
+
+[介绍]
+Go_Ai参考DouZero原理，全新开发，所以功能模式下是接近DouZero使用习惯与风格的，只是更简化。
+主要是以下几步: 1.newgame()创建开局   2.step()记录对家出牌，AI最优出牌策略   3.game_over()检测是否结束
+原来使用DouZero的代码仅需几行简单修改即可切换至Go_Ai策略，几乎不用付出学习与修改代价，快速带来胜率提升。
+
+[创建Agent]
 go_env = my_agent.My_Agent()
 
 全新开始一局，传入Go_Ai位置,初始手牌env,三张地主牌env
