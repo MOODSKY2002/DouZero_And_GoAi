@@ -1,7 +1,7 @@
 # Go_Ai 斗地主模型 · DouZero_For_HLDDZ_FullAuto 集成示例
 
 > 基于 DouZero_For_HLDDZ_FullAuto 示例，展示与演示 Go_Ai 效果。  
-> Go_Ai 是参考 DouZero 原理全新开发的 **MOE 架构** 斗地主模型。
+> Go_Ai 是参考 DouZero 原理从零全新开发的 **MOE 架构** 斗地主模型，与原DouZero模型、训练体系无任何关联。
 
 ---
 
