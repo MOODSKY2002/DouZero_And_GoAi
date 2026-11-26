@@ -34,13 +34,13 @@
 提示: 以下基准测试是在队友、敌人为DouZero时取得的，并不代表实际场景中的能力。测试完成后log目录中有出牌记录日志，可以贴给大模型查询是否有明显失误。
 
 ### landlord_up 胜率对比
-![landlord_up对比](1.png)
+![landlord_up对比](11.png)
 
 ### landlord 胜率对比
-![landlord 对比](2.png)
+![landlord 对比](22.png)
 
 ### landlord_down 胜率对比
-![landlord_down对比](3.png)
+![landlord_down对比](33.png)
 
 ---
 
