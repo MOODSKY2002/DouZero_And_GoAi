@@ -5,8 +5,8 @@ from my_env import web_client_mod
 # 帐号注册链接 http://ai.go129.com:8000/register
 server_info = {"url": "ai.go129.com",
                "port": 8000,
-               "username": "test34",
-               "password": "123123",
+               "username": "",
+               "password": "",
                "token": ""}
 
 
