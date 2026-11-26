@@ -1,6 +1,6 @@
 """
 关键变量说明
-go_ai_position   斗地主中Go_Ai控制的位置(字符串)，图灵位置自动与Go_Ai相同。
+go_ai_position   斗地主中Go_Ai控制的位置(字符串)。
 play_count       进行测试的游戏局数(整数)
 """
 
@@ -24,9 +24,6 @@ import copy
 # GoAi
 import my_agent
 
-# 图灵
-import tuling_env.env as tuling_env
-
 import random
 
 # 全部手牌env
@@ -47,7 +44,7 @@ EnvCard2RealCard = {3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9',10: '
 
 
 # !!!!!!!!!!!!!!!!! 测试重要参数修改区域 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-play_count = 100                                                # 测试对局数量
+play_count = 100                                               # 测试对局数量
 pos_list = ['landlord_up', 'landlord', 'landlord_down']
 go_ai_position = pos_list[2]                                    # 测试时Go_Ai、图灵的角色位置
 
@@ -209,7 +206,7 @@ play_data = create_game(play_count)                             # 随机发牌�
 
 
 
-print(f"使用相同随机开局数据 play_data, 进行三次测试显示各自胜胜率。\n第一次: 三个位置全部为DouZero。第二次: 两个位置为DouZero，指定位置为Go_Ai。第三次: 两个位置为DouZero，指定位置为TuLing。\n本次测试Go_Ai与TuLing指定位置为: {go_ai_position} \n")
+print(f"使用相同随机开局数据 play_data, 进行两次测试显示各自胜胜率。\n第一次: 三个位置全部为DouZero。第二次: 两个位置为DouZero，指定位置为Go_Ai。\n本次测试 Go_Ai 指定位置为: {go_ai_position} \n")
 
 # 第一种胜率,随机对局数据使用3个DouZero对局
 for i in range(0,play_count):
@@ -336,90 +333,4 @@ for i in range(0,play_count):
                 break
 
 print(f"Go_Ai 对局(各位置出完牌次数):",win_data2)
-
-
-
-
-
-# 图灵
-tuling_ai_position = go_ai_position                                 # 图灵指定为与 Go_Ai 相同的角色位置
-go_env = tuling_env.My_Env(tuling_ai_position)                      # 图灵 Agent
-
-# 第三种胜率，指定位置使用科灵与另外两个DouZero对局
-for i in range(0,play_count):
-    # 构造日志
-    stmp = f"TuLing 第 {i+1} 局 位置: {tuling_ai_position}"
-    print(f"\rTuLing 第 {i + 1} 局   ", end='', flush=True)
-    logwrite(stmp)
-
-    game_info = copy.deepcopy(play_data[i])
-    env_dict = create_douzero_env(game_info, env_dict)                    # 创建DouZero三个位置的Agent
-
-    # 初始图灵对局
-    user_hand_cards_env = play_data[i][tuling_ai_position]                 # 图灵 位置初始手牌
-    three_cards_env = play_data[i]['three_cards']                          # 三张地主牌
-    go_env.new_game(user_hand_cards_env,three_cards_env)    # 全新开局
-
-    action = ""
-    action_env = []
-    game_over = False                                                      # 对局结束状态(Douzero为True/False, 图灵为False/出完位置)
-
-    while game_over == False:
-        for now_pos in put_list:
-            if tuling_ai_position == now_pos:
-                my_cards = go_env.get_my_hand_cards()                                         # 获取当前手牌
-
-                # 图灵 出牌
-                back = go_env.step(position=now_pos, action=action)    # Go_Ai 最优动作
-                action = back[1]['action']
-
-                # 构造日志
-                stmp = f"位置: {tuling_ai_position.ljust(13)} 手牌: {env_to_cards(my_cards).ljust(20)} 出牌: {action}"
-                logwrite(stmp)
-
-                # 通知 DouZero 出牌动作内容
-                action_env = cards_to_env(action)
-                pos_list = put_list.copy()
-                pos_list.remove(tuling_ai_position)
-                other_pos1 = pos_list[0]
-                other_pos2 = pos_list[1]
-                env_dict[other_pos1].step(other_pos1, action_env)
-                env_dict[other_pos2].step(other_pos2, action_env)
-
-            else:
-                # DouZero出牌
-                my_cards = env_dict[now_pos].info_sets[now_pos].player_hand_cards.copy()                    # 获取当前手牌
-
-                action_message, _ = env_dict[now_pos].step(now_pos)                                         # DouZero 最优动作
-                action = action_message['action']                                                           # 只取动作
-                action_env = cards_to_env(action)
-
-                # 构造日志
-                stmp = f"位置: {now_pos.ljust(13)} 手牌: {env_to_cards(my_cards).ljust(20)} 出牌: {action}"
-                logwrite(stmp)
-
-                # 通知另一个 DouZero Agent 出牌动作内容
-                pos_list = put_list.copy()
-                pos_list.remove(tuling_ai_position)
-                pos_list.remove(now_pos)
-                other_pos = pos_list[0]
-                env_dict[other_pos].step(other_pos, action_env)
-
-                # 通知 图灵 出牌动作内容
-                go_env.step(position=now_pos, action=action_env)
-
-            game_over = go_env.game_over()  # 获取对局是否结束(图灵返回出完牌的位置: landlord/landlord_down/landlord_up)
-
-            # 判断对局结束
-            if game_over != False:
-                win_data3[game_over] += 1                 # 出完的位置胜利次数+1
-                logwrite(f"\n\n")
-                break
-
-print(f"TuLing 对局(各位置出完牌次数):",win_data3)
-
-
-
-
-
 
