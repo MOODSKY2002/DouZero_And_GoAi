@@ -26,7 +26,13 @@
 
 - 注册网址：<http://ai.go129.com:8000/register>
 - 注册免开通，个人免费使用。
-- **每个账号禁止并发连接，禁止重复登录，切记！**
+- 将你的帐号密码填入: my_agent.py
+- server_info = {"url": "ai.go129.com",
+               "port": 8000,
+               "username": "帐号",
+               "password": "密码",
+               "token": ""}
+
 
 ---
 
